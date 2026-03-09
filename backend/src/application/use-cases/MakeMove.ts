@@ -10,6 +10,19 @@ export class MakeMove {
         private readonly playerRepo: IPlayerRepository
     ) { }
     
+    /**
+     * Applies a move to the specified game on behalf of a player.
+     *
+     * @param gameId - UUID of the game to update
+     * @param playerId - UUID of the player making the move
+     * @param position - Board cell index (0–8) where the player places their symbol
+     * @returns The updated game record after the move is applied
+     * @throws {Error} If the game is not found or not active
+     * @throws {Error} If the position is out of range (0–8)
+     * @throws {Error} If the player is not a participant in this game
+     * @throws {Error} If it is not this player's turn
+     * @throws {Error} If the target cell is already occupied
+     */
     async execute(gameId: string, playerId: string, position: number): Promise<Game> {
         const game = await this.gameRepo.findById(gameId);
         if (!game) throw new Error('Game not found.')

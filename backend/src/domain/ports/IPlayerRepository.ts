@@ -1,5 +1,8 @@
 import { Player } from '../entities/Player';
 
+/**
+ * Output port defining the player persistence contract.
+ */
 export interface IPlayerRepository {
     findById(id: string): Promise<Player | null>;
     findByName(name: string): Promise<Player | null>;

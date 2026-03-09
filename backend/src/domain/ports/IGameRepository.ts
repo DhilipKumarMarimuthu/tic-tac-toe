@@ -1,5 +1,8 @@
 import { Game, CellValue } from '../entities/Game';
 
+/**
+ * Output port defining the game persistence contract.
+ */
 export interface IGameRepository {
     findById(id: string): Promise<Game | null>;
     create(playerXId: string): Promise<Game>;
