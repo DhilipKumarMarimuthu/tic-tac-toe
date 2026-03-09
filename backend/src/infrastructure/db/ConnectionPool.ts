@@ -4,6 +4,6 @@ import { Pool } from "pg";
  * Shared PostgreSQL connection pool.
  */
 
-export const ConnectionPool = new Pool({
+export const connectionPool = new Pool({
     connectionString: process.env.DATABASE_URL
 })

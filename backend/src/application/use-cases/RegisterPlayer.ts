@@ -13,8 +13,8 @@ export class RegisterPlayer {
      */
     async execute(name: string): Promise<Player>{
         const playerName = name.trim();
-        if (!playerName) throw new Error('Name is required');
-        const existingPlayer = await this.playerRepo.findById(playerName);
+        if (!playerName) throw new Error('Name is required');        
+        const existingPlayer = await this.playerRepo.findByName(playerName);
         if (existingPlayer) return existingPlayer;
         return await this.playerRepo.create(playerName);
     }

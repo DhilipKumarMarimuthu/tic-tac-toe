@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS players (
     losses      INTEGER NOT NULL DEFAULT 0,
     draws       INTEGER NOT NULL DEFAULT 0,
     created_at  TIMESTAMP WITH TIME ZONE DEFAULT NOW()
-)
+);
 
 CREATE TABLE IF NOT EXISTS games (
     id            UUID PRIMARY KEY DEFAULT gen_random_uuid(),
