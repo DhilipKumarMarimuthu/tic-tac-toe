@@ -20,8 +20,8 @@ class WebSocketService {
             try {
                 const message = JSON.parse(event.data as string) as WsMessage;
                 this.handlers.forEach(h => h(message));
-            } catch {
-                // Ignore malformed messages
+            } catch(error) {
+                console.warn("Failed to parse incoming WebSocket message:", event.data);
             }
         };
         this.ws.onclose = () => {
