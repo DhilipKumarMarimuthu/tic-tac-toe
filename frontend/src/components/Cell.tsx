@@ -1,5 +1,6 @@
 import { CellValue } from "../types/Game";
 
+/** Props for the Cell component */
 interface CellProps {
     value: CellValue;
     index: number;
@@ -7,6 +8,7 @@ interface CellProps {
     isClickable: boolean;
 }
 
+/** Renders a single cell button on the tic-tac-toe board. */
 export function Cell({ value, index, onClick, isClickable }: CellProps) {
     const classes = [
         'cell',

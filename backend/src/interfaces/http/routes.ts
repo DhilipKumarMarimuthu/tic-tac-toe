@@ -21,6 +21,7 @@ export function createRouter(
 
     const router = Router();
     router.post('/players', (req, res) => playerController.register(req, res));
+    router.get('/players/:id', (req, res) => playerController.getById(req, res));
     router.post('/matchmaking', (req, res) => gameController.matchMaking(req, res));
     router.get('/games/:id', (req, res) => gameController.getById(req, res));
     router.post('/games/:id/moves', (req, res) => gameController.move(req, res));

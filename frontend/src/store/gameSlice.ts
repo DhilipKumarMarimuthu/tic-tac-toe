@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Game, GameStatus } from '../types/Game';
 
+/** Shape of the game slice state. */
 interface GameState {
     game: Game | null;
     symbol: 'X' | 'O' | null;
@@ -8,6 +9,7 @@ interface GameState {
     error: string | null;
 }
 
+/** Initialize game slice state. */
 const initialState: GameState = {
     game: null,
     symbol: null,
@@ -15,6 +17,7 @@ const initialState: GameState = {
     error: null
 }
 
+/** Redux slice managing the active game state. */
 const gameSlice = createSlice({
     name: 'game',
     initialState,

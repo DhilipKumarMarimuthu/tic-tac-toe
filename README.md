@@ -5,5 +5,5 @@ It's a complete multiplayer Tic-Tac-Toe game where two players are automatically
 ## Technology Stack
 
 - Backend -> Node, TypeScript, Express, WebSocket
-- FrontEnd-> React, TypeScript, Redux Toolkit, React Router, Axios
+- FrontEnd-> React, TypeScript, Redux Toolkit, React Router, Axios, WebSocket
 - Database-> PostgreSQL

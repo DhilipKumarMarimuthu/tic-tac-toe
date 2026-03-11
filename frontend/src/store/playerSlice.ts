@@ -1,14 +1,17 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Player } from "../types/Player";
 
+/** Shape of the player slice state. */
 interface PlayerState {
     player: Player | null;
 }
 
+/** Initialize player slice state. */
 const initialState: PlayerState = {
     player: JSON.parse(localStorage.getItem('player') ?? 'null')
 }
 
+/** Redux slice managing the authenticated player. */
 const playerSlice = createSlice({
     name: 'player',
     initialState,

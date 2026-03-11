@@ -8,6 +8,7 @@ import { connectionPool } from './infrastructure/db/ConnectionPool';
 import { GameRepository } from './infrastructure/db/GameRepository';
 import { PlayerRepository } from './infrastructure/db/PlayerRepository';
 import { RegisterPlayer } from './application/use-cases/RegisterPlayer';
+import { GetPlayer } from './application/use-cases/GetPlayer';
 import { FindMatch } from './application/use-cases/FindMatch';
 import { MakeMove } from './application/use-cases/MakeMove';
 import { FetchGame } from './application/use-cases/FetchGame';
@@ -30,13 +31,14 @@ const wsHandler = new WebSocketHandler(new FetchGame(gameRepo));
 
 // Use cases — notifier is injected as the IGameNotifier port
 const registerPlayer = new RegisterPlayer(playerRepo);
+const getPlayer = new GetPlayer(playerRepo);
 const getGame = new FetchGame(gameRepo);
 const findMatch = new FindMatch(gameRepo, wsHandler);
 const makeMove = new MakeMove(gameRepo, wsHandler, playerRepo);
 const getRankings = new FetchRankings(playerRepo);
 
 // Controllers — no WebSocket knowledge here
-const playerController = new PlayerController(registerPlayer);
+const playerController = new PlayerController(registerPlayer, getPlayer);
 const gameController = new GameController(findMatch, makeMove, getGame);
 const rankingController = new RankingController(getRankings);
 

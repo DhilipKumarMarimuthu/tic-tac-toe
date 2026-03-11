@@ -3,10 +3,14 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../store";
 import { setGame, updateGame, resetGame } from "../store/gameSlice";
 import { Board } from "../components/Board";
-import { fetchGame, makeMove } from "../services/api";
+import { fetchGame, makeMove, getPlayer } from "../services/api";
 import { wsService } from "../services/websocketService";
 import { WsMessage } from "../types/Game";
 
+/**  
+ * Main game page that fetches game state, manages the WebSocket subscription
+ * and renders the board.
+*/
 export function Game() {
     const { id } = useParams<{ id: string }>();
     const dispatch = useAppDispatch();
@@ -15,6 +19,7 @@ export function Game() {
     const player = useAppSelector(state => state.player.player);
     const { game, symbol } = useAppSelector(state => state.game);
     const [loading, setLoading] = useState(true);
+    const [opponentName, setOpponentName] = useState<string | null>(null);
 
     useEffect(() => {
         if (!player || !id) { 
@@ -60,6 +65,18 @@ export function Game() {
         
     }, [id, player?.id]);
 
+    /** Fetch opponent name once their ID is known (either on load or when they join). */
+    useEffect(() => {
+        if (!game || !symbol) return;
+        const opponentId = symbol === 'X' ? game.playerOId : game.playerXId;
+        if (!opponentId) return;
+        getPlayer(opponentId).then(p => setOpponentName(p.name));
+    }, [game?.playerOId]);
+
+    /**
+     * Submit the local player's move at the given board position.
+     * @param position - Zero-based board index (0–8) of the chosen cell.
+     */
     const handleCellClick = useCallback(
         async (position: number) => {
             if (!game || !player) return;
@@ -75,12 +92,14 @@ export function Game() {
         [game, player],
     );
 
+    /** Disconnect from the game and return to the home page to find a new match. */
     const handlePlayAgain = () => {
         wsService.disconnect();
         dispatch(resetGame());
         navigate('/');
     };
 
+    /** Disconnect from the game and navigate to the rankings page. */
     const handleViewRankings = () => {
         wsService.disconnect();
         dispatch(resetGame());
@@ -94,6 +113,7 @@ export function Game() {
     const isMyTurn = game.status === 'active' && game.currentTurn === symbol;
     const opponentSymbol = symbol === 'X' ? 'O' : 'X';
 
+    /** Build the status message shown above the board. */
     const statusMessage = (): string => {
         if (game.status === 'waiting') return 'Waiting for an opponent to join...';
         if (game.status === 'finished') {
@@ -107,8 +127,8 @@ export function Game() {
         <div className="page">
             <h1>Tic-Tac-Toe</h1>
             <div className="game-info">
-                <span>You: <strong>{symbol}</strong></span>
-                <span>Opponent: <strong>{opponentSymbol}</strong></span>
+                <span>You: <strong>{player.name} ({symbol})</strong></span>
+                <span>Opponent: <strong>{opponentName ?? 'Waiting...'} ({opponentSymbol})</strong></span>
             </div>
             <p className="status-message">{statusMessage()}</p>
 

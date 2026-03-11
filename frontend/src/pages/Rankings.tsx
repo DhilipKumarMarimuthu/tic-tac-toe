@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Player } from '../types/Player';
 import { fetchRankings } from '../services/api';
 
+/** Rankings page that fetches and displays all players ordered by wins. */
 export function Rankings() { 
     const navigate = useNavigate();
     const [players, setPlayers] = useState<Player[]>([]);

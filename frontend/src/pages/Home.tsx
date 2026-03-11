@@ -5,6 +5,7 @@ import { setPlayer } from '../store/playerSlice';
 import { resetGame, setError } from '../store/gameSlice';
 import { registerPlayer, findMatch } from '../services/api';
 
+/** Landing page where a player enters their name and finds a match. */
 export function Home() {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
@@ -14,6 +15,7 @@ export function Home() {
     const [loading, setLoading] = useState(false);
     const [localError, setLocalError] = useState<string | null>(null);
 
+    /** Register the player, enter matchmaking, and navigate to the game room. */
     const handleFindMatch = async () => {
         const playerName = name.trim();
         if (!playerName) {
